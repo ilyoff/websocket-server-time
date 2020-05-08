@@ -40,7 +40,7 @@ const Form = (): JSX.Element => {
                 className="form__submit"
                 disabled={isFormDisabled}
             >
-                Отправить
+                Send
             </button>
         </form>
     );
