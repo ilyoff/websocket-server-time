@@ -2,6 +2,7 @@ import React, {useCallback, useContext, useState} from 'react';
 import './Form.scss';
 import api from "../../api";
 import UserContext from "../../UserContext";
+import Box from "../Box/Box";
 
 const Form = (): JSX.Element => {
     const [username, updateUsername] = useState('');
@@ -33,39 +34,41 @@ const Form = (): JSX.Element => {
     }, [username, password, setStateOnLogin]);
 
     return (
-        <form className="form" onSubmit={handleSubmit}>
-            <h1 className="form__title">Login</h1>
-            <label className="form__item">
-                Username
-                <input
-                    name="username"
-                    type="text"
-                    value={username}
-                    className="form__input"
-                    onChange={handleChange(updateUsername)}
-                />
-            </label>
+        <Box className="form">
+            <form onSubmit={handleSubmit}>
+                <h1 className="form__title">Login</h1>
+                <label className="form__item">
+                    Username
+                    <input
+                        name="username"
+                        type="text"
+                        value={username}
+                        className="form__input"
+                        onChange={handleChange(updateUsername)}
+                    />
+                </label>
 
-            <label className="form__item">
-                Password
-                <input
-                    name="password"
-                    type="password"
-                    className="form__input"
-                    value={password}
-                    onChange={handleChange(updatePassword)}
-                />
-            </label>
-            <button
-                type="submit"
-                className="form__submit"
-                disabled={isFormDisabled}
-            >
-                Send
-            </button>
+                <label className="form__item">
+                    Password
+                    <input
+                        name="password"
+                        type="password"
+                        className="form__input"
+                        value={password}
+                        onChange={handleChange(updatePassword)}
+                    />
+                </label>
+                <button
+                    type="submit"
+                    className="form__submit"
+                    disabled={isFormDisabled}
+                >
+                    Send
+                </button>
 
-            {error && <p className="form__error">{error}</p>}
-        </form>
+                {error && <p className="form__error">{error}</p>}
+            </form>
+        </Box>
     );
 };
 
