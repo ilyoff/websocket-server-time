@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import Token from "../../utils/Token";
 import UserContext from '../../UserContext';
 import Form from "../Form/Form";
+import Info from "../Info/Info";
 import Layout from "../Layout/Layout";
 
 const App = (): JSX.Element => {
@@ -12,7 +13,7 @@ const App = (): JSX.Element => {
     return (
         <UserContext.Provider value={{ isLoggedIn, setStateOnLogin: setOnLogin, setStateOnLogout: setOnLogout }}>
             <Layout>
-                {isLoggedIn ? <h1>INFO</h1> : <Form/>}
+                {isLoggedIn ? <Info /> : <Form/>}
             </Layout>
         </UserContext.Provider>
     );
