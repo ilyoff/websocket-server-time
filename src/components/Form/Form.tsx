@@ -1,18 +1,39 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import './Form.scss';
+import api from "../../api";
+import UserContext from "../../UserContext";
 
 const Form = (): JSX.Element => {
     const [username, updateUsername] = useState('');
     const [password, updatePassword] = useState('');
-    const isFormDisabled = !(username || password);
+    const [isSubmiting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState('');
+    const { setStateOnLogin } = useContext(UserContext);
+    const isFormDisabled = !(username && password) || isSubmiting;
 
     const handleChange = useCallback((setter) =>
         (event: React.ChangeEvent<HTMLInputElement>) => setter(event.target.value),
         []
     );
 
+    const handleSubmit = useCallback((e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        api.login({ username, password })
+            .then((token) => {
+                setError('');
+                setStateOnLogin();
+            })
+            .catch(({ description }) => {
+                setError(description);
+            })
+            .finally(() => {
+                setIsSubmitting(false);
+            })
+    }, [username, password, setStateOnLogin]);
+
     return (
-        <form className="form">
+        <form className="form" onSubmit={handleSubmit}>
             <h1 className="form__title">Login</h1>
             <label className="form__item">
                 Username
@@ -42,6 +63,8 @@ const Form = (): JSX.Element => {
             >
                 Send
             </button>
+
+            {error && <p className="form__error">{error}</p>}
         </form>
     );
 };
