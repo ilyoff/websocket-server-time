@@ -38,10 +38,10 @@
   border-radius: 4px;
   color: #fff;
   transition: background-color .3s;
-  cursor: pointer;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #095eb9;
+    cursor: pointer;
   }
 
   &:disabled {
