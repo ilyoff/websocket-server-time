@@ -4,6 +4,7 @@ import Token from "./utils/Token";
 
 interface ILoginSuccessResponse extends AxiosResponse {
     headers: {
+        [header: string]: string;
         'x-test-app-jwt-token': string;
     };
     data: {
@@ -31,11 +32,17 @@ class Api {
                 return jwt;
             })
             .catch((error: AxiosError<ILoginErrorData>) => {
-                if (error?.response?.status === HTTP_STATUS_CODE['Internal Server Error'] && attempt > 0) {
+                const status = error?.response?.status;
+
+                if (
+                    status !== HTTP_STATUS_CODE.BadRequest
+                    && status !== HTTP_STATUS_CODE.Unauthorized
+                    && attempt > 0
+                ) {
                     return this.login(data, attempt - 1);
                 }
 
-                throw error!.response!.data;
+                return Promise.reject(error!.response!.data);
             });
     }
 
@@ -45,7 +52,7 @@ class Api {
                 return response.data.url;
             })
             .catch((error: AxiosError) => {
-                throw error.response?.status;
+                return Promise.reject(error.response?.status);
             });
     }
 }
