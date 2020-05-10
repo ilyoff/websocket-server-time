@@ -12,7 +12,7 @@ const App = (): JSX.Element => {
     const logout = useCallback(() => {
         setOnLogout();
         Token.remove();
-    }, [setOnLogout, Token]);
+    }, [setOnLogout]);
     const contextValues = {
         isLoggedIn,
         logout,
