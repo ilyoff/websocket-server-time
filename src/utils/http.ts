@@ -4,7 +4,7 @@ import Token from "./Token";
 export enum HTTP_STATUS_CODE {
     BadRequest = 400,
     Unauthorized = 401,
-    'Internal Server Error' = 500,
+    InternalServerError = 500,
 }
 
 const config = {
