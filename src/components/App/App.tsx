@@ -9,9 +9,19 @@ const App = (): JSX.Element => {
     const [isLoggedIn, setIsLoggedIn] = useState(!!Token.get());
     const setOnLogin = useCallback(() => setIsLoggedIn(true), [setIsLoggedIn]);
     const setOnLogout = useCallback(() => setIsLoggedIn(false), [setIsLoggedIn]);
+    const logout = useCallback(() => {
+        setOnLogout();
+        Token.remove();
+    }, [setOnLogout, Token]);
+    const contextValues = {
+        isLoggedIn,
+        logout,
+        setStateOnLogin: setOnLogin,
+        setStateOnLogout: setOnLogout,
+    }
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, setStateOnLogin: setOnLogin, setStateOnLogout: setOnLogout }}>
+        <UserContext.Provider value={contextValues}>
             <Layout>
                 {isLoggedIn ? <Info /> : <Form/>}
             </Layout>

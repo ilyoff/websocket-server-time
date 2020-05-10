@@ -3,13 +3,13 @@ import React from "react";
 interface IUserContextState {
     isLoggedIn: boolean;
     setStateOnLogin: () => void;
-    setStateOnLogout: () => void;
+    logout: () => void;
 }
 
 const defaultState = {
     isLoggedIn: false,
     setStateOnLogin: () => {},
-    setStateOnLogout: () => {},
+    logout: () => {},
 }
 
 const UserContext = React.createContext<IUserContextState>(defaultState);

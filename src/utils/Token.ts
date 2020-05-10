@@ -8,6 +8,10 @@ class Token {
     static set(value: string) {
         localStorage.setItem(Token.key, value)
     }
+
+    static remove() {
+        localStorage.removeItem(Token.key);
+    }
 }
 
 export default Token;
