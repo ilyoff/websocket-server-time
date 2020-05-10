@@ -16,6 +16,10 @@ type ILoginErrorData = {
     description: string;
 }
 
+interface ISubscribeData {
+    url: string;
+}
+
 class Api {
     login(data: { username: string, password: string }, attempt: number = 3): Promise<string | ILoginErrorData> {
         return http.post('/login', data)
@@ -32,6 +36,16 @@ class Api {
                 }
 
                 throw error!.response!.data;
+            });
+    }
+
+    subscribe(): Promise<ISubscribeData['url']> {
+        return http.get('/subscribe')
+            .then((response: AxiosResponse<ISubscribeData>) => {
+                return response.data.url;
+            })
+            .catch((error: AxiosError) => {
+                throw error.response?.status;
             });
     }
 }
