@@ -7,10 +7,10 @@ import Box from "../Box/Box";
 const Form = (): JSX.Element => {
     const [username, updateUsername] = useState('');
     const [password, updatePassword] = useState('');
-    const [isSubmiting, setIsSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
     const { setStateOnLogin } = useContext(UserContext);
-    const isFormDisabled = !(username && password) || isSubmiting;
+    const isFormDisabled = !(username && password) || isSubmitting;
 
     const handleChange = useCallback((setter) =>
         (event: React.ChangeEvent<HTMLInputElement>) => setter(event.target.value),
@@ -20,6 +20,7 @@ const Form = (): JSX.Element => {
     const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+
         api.login({ username, password })
             .then((token) => {
                 setError('');
@@ -27,10 +28,8 @@ const Form = (): JSX.Element => {
             })
             .catch(({ description }) => {
                 setError(description);
-            })
-            .finally(() => {
                 setIsSubmitting(false);
-            })
+            });
     }, [username, password, setStateOnLogin]);
 
     return (
